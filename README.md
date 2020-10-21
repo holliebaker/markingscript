@@ -1,43 +1,40 @@
-# Automarker
+# Marking Script
 
-First of all, create scheme.csv (it must have this name, it's hardcoded)
-it is a csv file with each row having the following format:
-question number, question part, marks available, answer, feedback
+A python script to help mark maths problem sheets and generate feedback.
 
-most of this is self explanatory - answer is what it displays to the user when they are prompted for the score, feedback is what is presented to the student if the marker opts to use the "standard feedback"
+1. Create `scheme.csv` (it must have this name, it's hardcoded)
+Each row has the following format:
+```
+<question-number>,<question-part>,<marks-available>,<answer>,<default-feedback>
+```
+`answer` is displayed to the marker, and `default-feedback` is displayed to the student if they do not get full marks for that part question, and the marker chooses not to write a custom message.
 Please see sample-scheme.csv for an example
-
-Download the gradebook from Moodle. In this example it is called gradebook.csv
-Find the participant number of the submission you want to mark. In this example we are marking 12345.
-
+1. Download the gradebook from Moodle. In this example it is called gradebook.csv
+1. Find the participant number of the submission you want to mark. In this example we are marking 12345.
+1. Run the script
 '''
-python3 mark.py gradebook.csv 12345
+python3 grade.py gradebook.csv 12345
 '''
 
-Follow the prompts. To award full marks, leave blank and press enter. To use the default feedback from the file, leave the feedback blank and press enter. Feedback is only available for parts that do not score full marks, but this can be changed easily.
+The script will prompt you to enter a mark for each question. If the mark is left blank, full marks will be awarder. If a question doesn't sroce full marks, there will be a prompt to ender a feedback message. If this is left blank, the `<default-feedback>` from `scheme.csv` will be used. Additional genaral feedback if prompted for at the end.
+1. The script will print some text, showing the total score and feedback on questions that were answered incorrectly. This will be saved to `graded-gradebook.csv` which contains rows in Moodle gradebook format with mark and comments filled in.
 
-Sample output:
+## Sample Output
 
-Bob Student
+If all the answers are correct, only the total ang general feedback are shown.
+```
+Total: 100/100
 
-Total: 25/30
+Perfect, well done!
+```
 
-1 all correct. 10/10
-2 all correct. 10/10
-3 5/10
-3 b. Standard feedback here, taken from spreadsheet (0/1)
-3 e. Nearly correct, this was custom feedback by the user. (1/2)
+If any questions are answered incorrectly, fedback on individual questions is included.
+```
+Total: 28/30
 
-Here is some general feedback. Useful for general compliments or complaints.
-
----
-
-Example 2
-
-Jane Student
-
-Total: 100
-
-Full marks, well done!
-
-(if full marks no need to display a breakdown)
+1: all corret (10/10)
+2: 9/10
+  (b) correct answer is 42 (0/1)
+3: 9/10
+  (i) 2 + 2 does not equal 5 (0/1)
+```
