@@ -12,7 +12,7 @@ def find_participant(reader, pid):
 
 
 if len(sys.argv) <= 2:
-	print("Usage: mark.py <gradebook-csv> <participant-id>")
+	print("Usage: grade.py <gradebook-csv> <participant-id>")
 
 	sys.exit(1)
 
@@ -45,7 +45,7 @@ try:
     
         file.close()
 except FileNotFoundError:
-	0
+	0 # some code has to go here because otherwise python gets grumpy
 	### this happens when graded-gradebook.csv does not exist, and it is not a problem.
 
 grade = input("Grade: ")
