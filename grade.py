@@ -1,5 +1,6 @@
 import csv
 import sys
+from marker import mark
 
 def find_participant(reader, pid):
 	for row in reader:
@@ -48,14 +49,18 @@ except FileNotFoundError:
 	0 # some code has to go here because otherwise python gets grumpy
 	### this happens when graded-gradebook.csv does not exist, and it is not a problem.
 
-grade = input("Grade: ")
-feedback = input("Feedback: ")
+print("You are about to grade an assignment for " + input_row[2] + ".\n")
+
+marks = mark()
 
 ### Grade goes in column G
-input_row[6] = float(grade)
+input_row[6] = float(marks[0])
 ### Feedback goes in column
-input_row[10] = feedback
+input_row[10] = marks[1]
 
+print(marks[1])
+
+input("Press enter to write this to the gradebook file, or ctrl+C to cancel.")
 
 ### append row to marks
 with open('graded-'+fname, 'a+', newline='') as file:
@@ -63,6 +68,3 @@ with open('graded-'+fname, 'a+', newline='') as file:
     writer.writerow(input_row)
 
     file.close()
-
-
-print(input_row)
