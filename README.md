@@ -2,21 +2,24 @@
 
 A python script to help mark maths problem sheets and generate feedback.
 
-1. Create `scheme.csv` (it must have this name, it's hardcoded)
-  Each row has the following format:
-  ```
-<question-number>,<question-part>,<marks-available>,<answer>,<default-feedback>
+Create `scheme.csv` (it must have this name, it's hardcoded)
+Each row has the following format:
 ```
-  `answer` is displayed to the marker, and `default-feedback` is displayed to the student if they do not get full marks for that part question, and the marker chooses not to write a custom message.
-  Please see sample-scheme.csv for an example
-1. Download the gradebook from Moodle. In this example it is called gradebook.csv
-1. Find the participant number of the submission you want to mark. In this example we are marking 12345.
-1. Run the script
-  '''
+<question-number>,<question-part>,<marks-available>,<answer>,<default-feedback>
+  ```
+`answer` is displayed to the marker, and `default-feedback` is displayed to the student if they do not get full marks for that part question, and the marker chooses not to write a custom message.
+Please see sample-scheme.csv for an example
+
+Download the gradebook from Moodle. In this example it is called gradebook.csv
+
+Find the participant number of the submission you want to mark. In this example we are marking 12345.
+Run the script
+```
 python3 grade.py gradebook.csv 12345
-'''
-  The script will prompt you to enter a mark for each question. If the mark is left blank, full marks will be awarded. If a question doesn't score full marks, there will be a prompt to ender a feedback message. If this is left blank, the `<default-feedback>` from `scheme.csv` will be used. Additional genaral feedback if prompted for at the end.
-1. The script will print some text, showing the total score and feedback on questions that were answered incorrectly. This will be saved to `graded-gradebook.csv` which contains rows in Moodle gradebook format with mark and comments filled in.
+```
+The script will prompt you to enter a mark for each question. If the mark is left blank, full marks will be awarded. If a question doesn't score full marks, there will be a prompt to ender a feedback message. If this is left blank, the `<default-feedback>` from `scheme.csv` will be used. Additional genaral feedback is prompted for at the end.
+
+The script will print some text, showing the total score and feedback on questions that were answered incorrectly. This will be saved to `graded-gradebook.csv` which contains rows in Moodle gradebook format with mark and comments filled in.
 
 ## Sample Output
 
