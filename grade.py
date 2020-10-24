@@ -49,7 +49,9 @@ except FileNotFoundError:
 	0 # some code has to go here because otherwise python gets grumpy
 	### this happens when graded-gradebook.csv does not exist, and it is not a problem.
 
-print("You are about to grade an assignment for " + input_row[2] + ".\n")
+student_name = input_row[2]
+
+print("You are about to grade an assignment for " + student_name + ".\n")
 
 marks = mark()
 
@@ -61,6 +63,12 @@ input_row[10] = marks[1]
 print(marks[1])
 
 input("Press enter to write this to the gradebook file, or ctrl+C to cancel.")
+
+### also write feedback to a text file in case of broken moodleness
+with open('feedback.txt', 'a+', newline='') as file:
+    file.write(student_name + "\n" + marks[1] + "\n----------\n\n")
+    file.close()
+
 
 ### append row to marks
 with open('graded-'+fname, 'a+', newline='') as file:
