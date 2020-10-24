@@ -132,7 +132,7 @@ def to_string(questions, feedback, overall, mark):
 					# don't give feedback when they got it right, also 'total' is not a part question
 					continue
 
-				q_string += Template("  (${p}) ${feedback} (${mark} marks\n").safe_substitute({
+				q_string += Template("  (${p}) ${feedback} (${mark} marks)\n").safe_substitute({
 					'p': p,
 					'feedback': feedback[q][p]['feedback'],
 					'mark': feedback[q][p]['marks']
