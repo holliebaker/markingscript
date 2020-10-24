@@ -88,6 +88,8 @@ def generate_feedback(questions):
 					feedback = questions[q][p]['feedback']
 				
 			responses[q]['total'] += marks
+			responses[q]['total'] = min(responses[q]['total'], questions[q]['total'])
+
 			responses[q][p] = {
 				'marks': marks,
 				'feedback': feedback
@@ -107,6 +109,9 @@ def to_string(questions, feedback, overall, mark):
 		return feedback_str
 
 	for q in feedback:
+		if q == '0':
+			continue # question 0 is ignored, it's there for administrative reasons only.
+
 		q_string = ""
 
 		if feedback[q]['total'] == questions[q]['total']:
