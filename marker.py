@@ -14,7 +14,7 @@ def parse_questions():
 	
 	with open('scheme.csv', 'r') as csv_file:
 		reader = csv.reader(csv_file)
-	
+
 		for row in reader:
 			ques = row[0]
 			part = row[1]
@@ -22,7 +22,12 @@ def parse_questions():
 			if ques not in questions:
 				questions[ques] = {
 					'total': 0
-				}
+				} 
+
+			if part == 'total':
+				questions[ques]['custom_total'] = int(row[2])
+
+				continue # ignore processing the rest of the row
 	
 			question_part = {
 				'total': int(row[2]),
@@ -36,6 +41,14 @@ def parse_questions():
 	
 		csv_file.close()
 	
+		### make a final pass to over the questions to overwrite calculated totals with custom ones
+		for q in questions:
+			if 'custom_total' in questions[q]:
+				questions[q]['total'] = questions[q]['custom_total']    
+
+				### now total is correct, the custom total can be removed
+				del questions[q]['custom_total']
+
 	### compute full total
 	questions['total'] = calc_total(questions)
 
@@ -114,11 +127,10 @@ def to_string(questions, feedback, overall, mark):
 					# don't give feedback when they got it right, also 'total' is not a part question
 					continue
 
-				q_string += Template("  (${p}) ${feedback} (${mark}/${total})\n").safe_substitute({
+				q_string += Template("  (${p}) ${feedback} (${mark} marks\n").safe_substitute({
 					'p': p,
 					'feedback': feedback[q][p]['feedback'],
-					'mark': feedback[q][p]['marks'],
-					'total': questions[q][p]['total']
+					'mark': feedback[q][p]['marks']
 				})
 
 		feedback_str += q_string
@@ -126,11 +138,11 @@ def to_string(questions, feedback, overall, mark):
 
 
 def mark():
-    questions = parse_questions()
-    feedback = generate_feedback(questions)
-    total = calc_total(feedback)
+	questions = parse_questions()
+	feedback = generate_feedback(questions)
+	total = calc_total(feedback)
 
-    print("Total: " + str(total))
-    overall = input("Any overall feedback? ")
+	print("Total: " + str(total))
+	overall = input("Any overall feedback? ")
 
-    return [total, to_string(questions, feedback, overall, total)]
+	return [total, to_string(questions, feedback, overall, total)]
