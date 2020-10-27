@@ -1,5 +1,6 @@
 import csv
 import sys
+import readline
 from marker import mark
 
 def find_participant(reader, pid):
